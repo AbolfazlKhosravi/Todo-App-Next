@@ -1,6 +1,49 @@
-import { FaTrashAlt, FaCheckSquare, FaEdit } from "react-icons/fa";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import TodoList from "../components/todos/todoList";
+import TodoForm from "../components/todos/todoForm";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [value, setValue] = useState("");
+  const [todos, setTodos] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("api/todos")
+      .then(({ data }) => {
+        setLoading(false);
+        setTodos(data.todos);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const deletTodoHandler = (id) => {
+    axios
+      .delete(`api/todos/${id}`)
+      .then(({ data  }) => {
+        setTodos(data.todos);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const addTodoHandler = (e) => {
+    e.preventDefault();
+    if (value === "") {
+      alert("writing to form");
+      return;
+    }
+    axios
+      .post("api/todos", {  title: value })
+      .then(({data}) => {
+        setTodos(data.todos);
+        setValue("");
+      })
+      .catch((err) => console.log(err));
+   
+  };
+
   return (
     <div className="bg-gray-900 h-screen flex flex-col items-center justify-start ">
       <header className="flex flex-col items-center my-4 md:my-6">
@@ -9,50 +52,17 @@ export default function Home() {
         </h1>
       </header>
       <div className="flex flex-col items-center justify-between bg-gray-800 p-4 rounded-lg">
-        <div>
-          <div className="bg-white w-72 flex  px-2 py-1 rounded-sm mt-2 justify-between items-center md:w-96 md:h-10">
-            <p className={`text-gray-900 font-bold md:text-lg `}>reat 1</p>
-            <div className="flex items-center justify-between">
-              <button className="text-blue-700 text-lg">
-                <FaCheckSquare />
-              </button>
-              <button className="text-green-700 ml-2 text-lg">
-                <FaEdit />
-              </button>
-              <button className="text-red-700 ml-2 text-[1rem]">
-                <FaTrashAlt />
-              </button>
-            </div>
+        <TodoForm addTodoHandler={addTodoHandler} value={value} setValue={setValue}/>
+        {loading ? (
+          <div>loading...</div>
+        ) : (
+          <div>
+            {todos.map((todo) => {
+              return (<TodoList key={todo.id} todo={todo} deletTodoHandler={deletTodoHandler}/>
+              );
+            })}
           </div>
-          <div className="bg-white w-72 flex  px-2 py-1 rounded-sm mt-2 justify-between items-center md:w-96 md:h-10">
-            <p className={`text-gray-900 font-bold md:text-lg `}>reat 2</p>
-            <div className="flex items-center justify-between">
-              <button className="text-blue-700 text-lg">
-                <FaCheckSquare />
-              </button>
-              <button className="text-green-700 ml-2 text-lg">
-                <FaEdit />
-              </button>
-              <button className="text-red-700 ml-2 text-[1rem]">
-                <FaTrashAlt />
-              </button>
-            </div>
-          </div>
-          <div className="bg-white w-72 flex  px-2 py-1 rounded-sm mt-2 justify-between items-center md:w-96 md:h-10">
-            <p className={`text-gray-900 font-bold md:text-lg`}>reat 3</p>
-            <div className="flex items-center justify-between">
-              <button className="text-blue-700 text-lg">
-                <FaCheckSquare />
-              </button>
-              <button className="text-green-700 ml-2 text-lg">
-                <FaEdit />
-              </button>
-              <button className="text-red-700 ml-2 text-[1rem]">
-                <FaTrashAlt />
-              </button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
