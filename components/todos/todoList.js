@@ -1,21 +1,33 @@
-import { FaTrashAlt, FaCheckSquare, FaEdit } from "react-icons/fa";
+import { FaTrash, FaCheckSquare, FaRegEdit } from "react-icons/fa";
 
-const TodoList = ({ todo ,deletTodoHandler }) => {
+const TodoList = ({ todo, deletTodoHandler }) => {
   return (
-    <div className="bg-white w-72 flex  px-2 py-1 rounded-sm mt-2 justify-between items-center md:w-96 md:h-10">
-      <p className={`text-gray-900 font-bold md:text-lg `}>{todo.title}</p>
+    <div className="bg-white  w-full flex   rounded-lg  mt-2 justify-between items-center ring-1 p-2 ring-blue-400 ">
+      <div className="flex flex-col items-start justify-start">
+        <p className={`text-gray-600 font-bold text-lg `}> {todo.title}</p>
+        <p className={`text-gray-600 font-normal  text-sm`}>
+          {todo.description} /{" "}
+          <span className="text-blue-500">
+            {new Date(todo.date).toLocaleDateString("en-IR", {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            })}
+          </span>
+        </p>
+      </div>
       <div className="flex items-center justify-between">
-        <button className="text-blue-700 text-lg">
+        <button className="text-blue-500 text-lg">
           <FaCheckSquare />
         </button>
-        <button className="text-green-700 ml-2 text-lg">
-          <FaEdit />
+        <button className="text-green-500 ml-3 text-lg">
+          <FaRegEdit />
         </button>
         <button
           onClick={() => deletTodoHandler(todo.id)}
-          className="text-red-700 ml-2 text-[1rem]"
+          className="text-red-500 ml-3 text-[1rem]"
         >
-          <FaTrashAlt />
+          <FaTrash />
         </button>
       </div>
     </div>
