@@ -60,7 +60,7 @@ export default function Home() {
               todos.map((todo) => {
                 return (
                   <TodoList
-                    key={todo.id}
+                    key={todo._id}
                     todo={todo}
                     deletTodoHandler={deletTodoHandler}
                   />
