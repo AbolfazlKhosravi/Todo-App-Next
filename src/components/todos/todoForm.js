@@ -15,7 +15,7 @@ const TodoForm = ({ addTodoHandler }) => {
   return (
     <div className="mb-4 flex flex-col w-full px-4">
       <form
-        onSubmit={(e) => addTodoHandler(e, formData ,setFormData)}
+        onSubmit={(e) => addTodoHandler(e, formData ,setFormData ,setIsShow)}
        
         className={
           `${isShow

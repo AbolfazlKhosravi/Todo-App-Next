@@ -18,7 +18,7 @@ export default function Home({ data }) {
       .catch((err) => console.log(err));
   };
 
-  const addTodoHandler = (e, formData, setFormData) => {
+  const addTodoHandler = (e, formData, setFormData,setIsShow) => {
     e.preventDefault();
     if (formData.title === "" && formData.description === "") {
       alert("writing to form");
@@ -28,6 +28,7 @@ export default function Home({ data }) {
       .post("api/todos", { formData })
       .then(({ data }) => {
         setTodos(data.todos);
+        setIsShow((isahow)=>!isahow)
         setFormData({ title: "", description: "" });
       })
       .catch((err) => console.log(err));
