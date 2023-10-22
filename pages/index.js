@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import TodoList from "../components/todos/todoList";
 import TodoForm from "../components/todos/todoForm";
 import Todo from "../server/models/todo";
+import Layout from "../containers/layout";
 
-export default function Home({data}) {
+export default function Home({ data }) {
   const [todos, setTodos] = useState(data);
 
   const deletTodoHandler = (id) => {
@@ -31,21 +32,18 @@ export default function Home({data}) {
       })
       .catch((err) => console.log(err));
   };
-  const completTodoHandler=(id)=>{
+  const completTodoHandler = (id) => {
     axios
-    .put(`../../api/todos/complete/${id}`)
-    .then(({ data }) => {
-      setTodos(data.todos)
+      .put(`../../api/todos/complete/${id}`)
+      .then(({ data }) => {
+        setTodos(data.todos);
         console.log(data);
-    })
-    .catch((err) => console.log(err));
-  }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <div className="bg-gray-50 h-screen flex flex-col items-center justify-start ">
-      <header className="flex justify-center items-center w-full my-4 ">
-        <h1 className="font-bold text-slate-600 text-3xl  ">To Do List App</h1>
-      </header>
+    <Layout>
       <div className="flex flex-col lg:flex-row  w-full items-center lg:items-start lg:mt-8 justify-between ">
         <TodoForm addTodoHandler={addTodoHandler} />
         <div className="w-full px-3">
@@ -67,15 +65,16 @@ export default function Home({data}) {
           )}
         </div>
       </div>
-    </div>
-  );
+    </Layout>
+  );دح
 }
 
 export async function getServerSideProps() {
-  const todos = await Todo.find({})
-   todos.sort((a, b) => {
+  const todos = await Todo.find({});
+  todos.sort((a, b) => {
     return new Date(a.date).getTime() > new Date(b.date).getTime() ? -1 : 1;
-  });  return {
+  });
+  return {
     props: {
       data: JSON.parse(JSON.stringify(todos)),
     },
