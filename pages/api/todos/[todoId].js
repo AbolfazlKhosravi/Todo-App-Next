@@ -23,6 +23,17 @@ export default async function handler(req, res) {
     const todo = await getOneTodo(todoId);
     return res.status(200).json({ message: "todo finded successfuly", todo });
   }
+  if (req.method === "PUT") {
+    const { formData } = req.body;
+    const todo = await Todo.findById(todoId);
+    todo.title = formData.title;
+    todo.description = formData.description;
+    todo.isCompleted = formData.isCompleted;
+    todo.date = new Date().toISOString();
+    await todo.save();
+    const todos=await Todo.find({})
+    return res.status(200).json({ message: "Completed", todos });
+  }
 }
 
 export async function getOneTodo(todoId) {

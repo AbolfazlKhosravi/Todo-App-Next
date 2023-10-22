@@ -31,6 +31,15 @@ export default function Home({data}) {
       })
       .catch((err) => console.log(err));
   };
+  const completTodoHandler=(id)=>{
+    axios
+    .put(`../../api/todos/complete/${id}`)
+    .then(({ data }) => {
+      setTodos(data.todos)
+        console.log(data);
+    })
+    .catch((err) => console.log(err));
+  }
 
   return (
     <div className="bg-gray-50 h-screen flex flex-col items-center justify-start ">
@@ -47,6 +56,7 @@ export default function Home({data}) {
                   key={todo._id}
                   todo={todo}
                   deletTodoHandler={deletTodoHandler}
+                  completTodoHandler={completTodoHandler}
                 />
               );
             })
