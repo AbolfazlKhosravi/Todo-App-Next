@@ -2,21 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import TodoList from "../components/todos/todoList";
 import TodoForm from "../components/todos/todoForm";
+import Todo from "../server/models/todo";
 
-export default function Home() {
-  const [loading, setLoading] = useState(true);
-
-  const [todos, setTodos] = useState(true);
-
-  useEffect(() => {
-    axios
-      .get("api/todos")
-      .then(({ data }) => {
-        setLoading(false);
-        setTodos(data.todos);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+export default function Home({data}) {
+  const [todos, setTodos] = useState(data);
 
   const deletTodoHandler = (id) => {
     axios
@@ -50,30 +39,35 @@ export default function Home() {
       </header>
       <div className="flex flex-col lg:flex-row  w-full items-center lg:items-start lg:mt-8 justify-between ">
         <TodoForm addTodoHandler={addTodoHandler} />
-        {loading ? (
-          <div className="w-full px-3 flex items-center justify-center">
-            loading...
-          </div>
-        ) : (
-          <div className="w-full px-3">
-            {todos.length ? (
-              todos.map((todo) => {
-                return (
-                  <TodoList
-                    key={todo._id}
-                    todo={todo}
-                    deletTodoHandler={deletTodoHandler}
-                  />
-                );
-              })
-            ) : (
-              <div className="w-full px-3 flex items-center justify-center font-bold text-blue-500 text-lg">
-                Emty
-              </div>
-            )}
-          </div>
-        )}
+        <div className="w-full px-3">
+          {todos.length ? (
+            todos.map((todo) => {
+              return (
+                <TodoList
+                  key={todo._id}
+                  todo={todo}
+                  deletTodoHandler={deletTodoHandler}
+                />
+              );
+            })
+          ) : (
+            <div className="w-full px-3 flex items-center justify-center font-bold text-blue-500 text-lg">
+              Emty
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const todos = await Todo.find({})
+   todos.sort((a, b) => {
+    return new Date(a.date).getTime() > new Date(b.date).getTime() ? -1 : 1;
+  });  return {
+    props: {
+      data: JSON.parse(JSON.stringify(todos)),
+    },
+  };
 }

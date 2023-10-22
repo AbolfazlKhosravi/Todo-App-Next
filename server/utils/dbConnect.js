@@ -12,7 +12,7 @@ async function dbConnect() {
         useUnifiedTopoLogy:true,
     })
 
-    connection.isConnected=db.connection[0].readyState;
+    connection.isConnected=db.connection.readyState;
 }
 
 export default dbConnect

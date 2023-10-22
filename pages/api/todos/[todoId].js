@@ -11,11 +11,21 @@ const todoSort = (todos) => {
 
 export default async function handler(req, res) {
   const { todoId } = req.query;
-
   if (req.method === "DELETE") {
     await Todo.findByIdAndDelete(todoId);
     const todos = await Todo.find({});
     todoSort(todos);
-    return res.status(200).json({ message: "todo Delete is successfuly", todos });
+    return res
+      .status(200)
+      .json({ message: "todo Delete is successfuly", todos });
   }
+  if (req.method === "GET") {
+    const todo = await getOneTodo(todoId);
+    return res.status(200).json({ message: "todo finded successfuly", todo });
+  }
+}
+
+export async function getOneTodo(todoId) {
+  const todo = await Todo.findById(todoId);
+  return todo;
 }

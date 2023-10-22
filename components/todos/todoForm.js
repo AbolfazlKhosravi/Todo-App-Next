@@ -74,7 +74,6 @@ const TodoForm = ({ addTodoHandler }) => {
           <button
            type="submit"
             className="transition duration-300 ease-out hover:scale-105 bg-blue-500 rounded-full w-9 h-9 flex items-center justify-center"
-            type="submit"
           >
             <span className="text-white text-[2.4rem] -translate-y-[.3rem] translate-x-[.2px]">
               +
