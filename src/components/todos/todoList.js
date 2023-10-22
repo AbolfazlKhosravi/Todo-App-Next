@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaTrash, FaCheckSquare, FaRegEdit } from "react-icons/fa";
+import { FaTrash, FaRegEdit } from "react-icons/fa";
 
 const TodoList = ({ todo, deletTodoHandler, completTodoHandler }) => {
   const descriptionLength = process.browser

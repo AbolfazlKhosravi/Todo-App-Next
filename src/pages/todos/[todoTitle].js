@@ -1,10 +1,10 @@
 import axios from "axios";
 import { FaTrash, FaCheckSquare, FaRegEdit } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { getOneTodo } from "../api/todos/[todoId]";
+import { getOneTodo } from "@api/todos/[todoId]";
 import { useState } from "react";
 import Link from "next/link";
-import Layout from "../../containers/layout";
+import Layout from "@containers/layout";
 
 const TodoPage = ({ data }) => {
   const router = useRouter();

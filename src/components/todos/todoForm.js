@@ -1,7 +1,4 @@
-import { data } from "autoprefixer";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { FaPlusCircle } from "react-icons/fa";
 const TodoForm = ({ addTodoHandler }) => {
   const [formData, setFormData] = useState({ title: "", description: "" });
   const [isShow, setIsShow] = useState(false);
