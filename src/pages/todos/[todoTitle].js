@@ -5,6 +5,7 @@ import { getOneTodo } from "@api/todos/[todoId]";
 import { useState } from "react";
 import Link from "next/link";
 import Layout from "@containers/layout";
+import dbConnect from "@server/utils/dbConnect";
 
 const TodoPage = ({ data }) => {
   const router = useRouter();
@@ -86,6 +87,7 @@ const TodoPage = ({ data }) => {
 };
 
 export async function getServerSideProps(context) {
+  dbConnect()
   const { _id } = context.query;
   const todo = await getOneTodo(_id);
   return {

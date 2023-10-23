@@ -4,6 +4,7 @@ import TodoList from "@components/todos/todoList";
 import TodoForm from "@components/todos/todoForm";
 import Todo from "@server/models/todo";
 import Layout from "@containers/layout";
+import dbConnect from "@server/utils/dbConnect";
 
 export default function Home({ data }) {
   const [todos, setTodos] = useState(data);
@@ -71,6 +72,7 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
+  dbConnect();
   const todos = await Todo.find({});
   todos.sort((a, b) => {
     return new Date(a.date).getTime() > new Date(b.date).getTime() ? -1 : 1;
