@@ -8,7 +8,6 @@ import dbConnect from "@server/utils/dbConnect";
 
 export default function Home({ data }) {
   const [todos, setTodos] = useState(data);
-
   const deletTodoHandler = (id) => {
     axios
       .delete(`api/todos/${id}`)
